@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{0fd6caad-4f34-41dd-9f85-99540ea442da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{9b5a7da4-e05a-4723-ac89-633c3d5caf75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TileStrategies">
+      <UniqueIdentifier>{6eefc261-48c8-47a5-8ee2-f44f9f683eb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DrawingImplementations">
+      <UniqueIdentifier>{92076d2c-9663-411d-9d35-29c52e0c6910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DirectionStrategies">
+      <UniqueIdentifier>{e14dcaaa-6b82-489c-a838-af67d1e7b2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Abstracts">
+      <UniqueIdentifier>{aca6dc4c-8c65-4f9d-b059-b99a0ac5f657}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="tile.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="renderWindowSingleton.cpp">
+      <Filter>Source Files\Abstracts</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboardInput.cpp">
+      <Filter>Source Files\DirectionStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="singleTileDrawingImplementation.cpp">
+      <Filter>Source Files\DrawingImplementations</Filter>
+    </ClCompile>
+    <ClCompile Include="createTile.cpp">
+      <Filter>Source Files\TileStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="deleteTile.cpp">
+      <Filter>Source Files\TileStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="moveTile.cpp">
+      <Filter>Source Files\TileStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="grid.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="directionStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="renderWindowSingleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tilePossessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tileStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="keyboardInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="singleTileDrawingImplementation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="createTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="deleteTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="moveTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
