@@ -3,8 +3,9 @@
 Map::Map()
 {
     setStrategy(std::make_unique<MoveTileStrategy>());
+    setDirStrategy(std::make_unique<KeyboardInputDirectionStrategy>());
     count = 0;
-    tile = new Tile(500, 600, sf::Color::Blue, count);
+    //tile = new Tile(500, 600, sf::Color::Blue, count);
     /*tile->createNewTile(0, count);
     tile->createNewTile(5, count);
     tile->getTile(5)->createNewTile(5, count);
@@ -17,8 +18,8 @@ Map::Map()
 
     /*tile->createNewTile(0, count);
     tile->createNewTile(5, count);*/
-    tile->createAdjacentTiles(sf::Color::Blue, count);
-    fillUp(tile, 50);
+    //tile->createAdjacentTiles(sf::Color::Blue, count);
+    //fillUp(tile, 50);
     //generateLineMap(tile, 100);
     //createMaze(tile, 10000);
 }
@@ -26,7 +27,7 @@ Map::Map()
 void Map::drawMap()
 {
     tile->resetVisits();
-    tile->drawTile();
+    tile->drawTile(true);
     tile->drawSingleTile();
 }
 
@@ -143,13 +144,28 @@ bool Map::isMazeConnected(Tile* start)
     return visited.size() == count;
 }
 
-void Map::update()
+int Map::update1()
 {
     sf::RenderWindow& window = RenderWindowSingleton::GetInstance()->getWindow();
-    int x = sf::Mouse::getPosition(window).x;
-    int y = sf::Mouse::getPosition(window).y;
-    side = strategy_.get()->getFlagged()->getSide(x, y);
+    //int x = sf::Mouse::getPosition(window).x;
+    //int y = sf::Mouse::getPosition(window).y;
+    //side = strategy_.get()->getFlagged()->getSide(x, y);
+    side = dirStrategy_.get()->getSide();
+
+    std::cout << "MAP MOVES TO: " << side << std::endl;
+    //OutOfBounds* temp = dynamic_cast<OutOfBounds*>(dirStrategy_.get());
+    //temp->setTrack(&player);
+
+
+    /*if (strat == 3)
+    {
+        CameraBlockJump* temp = dynamic_cast<CameraBlockJump*>(strategy_.get());
+        temp->setJump(player.getTile());
+    }*/
+    
     strategy_.get()->execute(side, tile);
+
+    return side;
 
     //strategy_.get()->execute(window, tile);
     /*int x = sf::Mouse::getPosition(window).x;
@@ -161,10 +177,19 @@ void Map::update()
     flagged = nullptr;*/
 }
 
+void Map::update()
+{
+}
+
+std::string Map::constructPacket() const
+{
+    return "0 " + std::to_string(this->strat) + " " + std::to_string(this->side);
+}
+
 void Map::flag()
 {
-    sf::RenderWindow& window = RenderWindowSingleton::GetInstance()->getWindow();
-    strategy_.get()->flagTile(tile->findTile(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y));
+    //sf::RenderWindow& window = RenderWindowSingleton::GetInstance()->getWindow();
+    strategy_.get()->flagTile(tile->findTile(tile->getCoords().x, tile->getCoords().y));
     //strategy_.get()->execute(window, tile);
     /*flagged = tile->findTile(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
     std::cout << flagged->id << std::endl;*/
@@ -176,6 +201,7 @@ void Map::draw()
 
 void Map::setMapStrategy(int strat)
 {
+    this->strat = strat;
     switch (strat)
     {
     case 1:
@@ -184,5 +210,92 @@ void Map::setMapStrategy(int strat)
     case 2:
         setStrategy(std::make_unique<DeleteTileStrategy>());
         break;
+    case 3:
+        setStrategy(std::make_unique<DoNothingTile>());
+        break;
+    case 4:
+        setStrategy(std::make_unique<MoveTileStrategy>());
+        break;
     }
+}
+
+void Map::saveMap()
+{
+    json j;
+    tile->toJson(j);
+    //j.push_back(tile->toJson(j));
+    //j.push_back(tile->getTile(0)->toJson());
+    
+
+    std::ofstream outputFile("test.json");
+
+    outputFile << j.dump(4);
+    outputFile.close();
+
+    std::cout << "MAP SAVED" << std::endl;
+
+}
+
+void Map::loadMap()
+{
+    if (tile != nullptr)
+    {
+        deleteMap(tile);
+        delete tile;
+    }
+        
+
+    std::ifstream inputFile("test.json");
+    json data = json::parse(inputFile);
+
+    std::unordered_map<std::string, Tile*> tiles;
+    int cnt = 0;
+
+    for (json::iterator it = data.begin(); it != data.end(); ++it)
+    {
+        tiles[it.key()] = new Tile(0, 0, sf::Color::Blue, cnt);  
+    }
+
+    for (json::iterator it = data.begin(); it != data.end(); ++it)
+    {
+        int index = 0;
+        for (json::iterator sides = it.value().begin(); sides != it.value().end(); ++sides)
+        {
+            if (sides.value() == "nullptr")
+                tiles[it.key()]->setTile(index, nullptr);
+            else
+                tiles[it.key()]->setTile(index, tiles[sides.value()]);
+
+            index++;
+        }
+    }
+
+    json::iterator it = data.begin();
+    tile = tiles[it.key()];
+    
+   
+    inputFile.close();
+}
+
+void Map::deleteMap(Tile* tileToDelete)
+{
+    if (tileToDelete != nullptr)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (tileToDelete->getTile(i) != nullptr)
+            {
+                tileToDelete->unsetTiles(i, tileToDelete);
+                deleteMap(tileToDelete->getTile(i));
+            }
+        }
+        if (tile != tileToDelete)
+            delete tileToDelete;
+    }
+    
+}
+
+void Map::clientSideDirectionStraregy(tempSide* s)
+{
+    setDirStrategy(std::make_unique<ServerInput>(s));
 }

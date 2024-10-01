@@ -4,19 +4,21 @@
 #include "renderWindowSingleton.h"
 #include "tile.h"
 #include "map.h"
-#include "player.h"
+#include "character.h"
 #include <vector>
 
 class Grid
 {
 public:
 	Grid();
-	void mapToGrid(Map& map) const;
-	void playerToGrid(Player& player) const;
+	void mapToGrid(Tile* mainTile) const;
+	sf::Vector2f configPosition() const;
+	void setSide(int toSet);
 
 private:
 	sf::Vector2f firstTile;
 	sf::Vector2f steps;
-	void mapToGridRecursion(Tile* currentTile, sf::Vector2<int>count, sf::Vector2f nextPosition) const;
+	void mapToGridRecursion(Tile* currentTile, sf::Vector2f nextPosition) const;
+	int side = -1;
 };
 

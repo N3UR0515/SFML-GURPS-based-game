@@ -5,14 +5,18 @@
 #include <vector>
 #include <queue>
 #include "renderWindowSingleton.h"
+#include "json.hpp"
 #pragma once
+
+
+using json = nlohmann::json;
 
 class Tile {
 public:
     Tile();
     ~Tile();
     Tile(int x, int y, sf::Color color, int& count);
-    void drawTile();
+    void drawTile(bool drawing);
     void drawSingleTile();
     void drawFlashLightTile(int side, int range, int maxRange);
     void drawBorder(int side);
@@ -37,21 +41,37 @@ public:
     void setVisited();
     bool isVisited() const;
 
+    void setVisitedByDelete();
+    bool isVisitedByDelete();
+    void resetVisitedByDeleted();
     static float getRadius();
 
     sf::Vector2<int> getCoords();
 
+    void toJson(json& j);
+    void setVisitedByJson();
+    bool isVisitedByJson();
+    void resetVisitedByJson();
+
     int id;
+
+    void presetReveal(Tile* toSet, int dirToSet);
+    void reveal();
 
 private:
     int x;
     int y;
+    std::array<Tile*, 6> adjacentTiles;
     sf::ConvexShape hexagon;
     sf::ConvexShape lightningHexagon;
-    std::array<Tile*, 6> adjacentTiles;
     static constexpr float radius = 30.0f;
     bool visited;
     bool visitedByGrid = false;
+    bool visitedByDelete = false;
+    bool visitedByJson = false;
+
+    Tile* presetTile;
+    int presetDirection;
 
     const int distance = 2 * radius;
     const int yOffset[6] = { distance, distance / 2, -distance / 2, -distance, -distance / 2, distance / 2 };

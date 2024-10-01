@@ -1,0 +1,6 @@
+projectKey=first
+serverUrl=http://localhost:9000
+serverVersion=10.5.1.90531
+dashboardUrl=http://localhost:9000/dashboard?id=first
+ceTaskId=6d5851c0-57f3-4f34-b8b9-4704ebb7e12d
+ceTaskUrl=http://localhost:9000/api/ce/task?id=6d5851c0-57f3-4f34-b8b9-4704ebb7e12d

@@ -27,18 +27,19 @@ Tile::Tile(int x, int y, sf::Color color, int& count) {
     this->lightningHexagon = makeHexagon(sf::Color{ 0, 0, 0, 0 });
 }
 
-void Tile::drawTile() {
+void Tile::drawTile(bool drawing) {
     if (!visited)
     {
         sf::RenderWindow& window = RenderWindowSingleton::GetInstance()->getWindow();
         visited = true;
-        window.draw(hexagon);
+        if(drawing)
+            window.draw(hexagon);
 
         for (int i = 0; i < 6; i++) {
             if (adjacentTiles[i] != nullptr) {
-                adjacentTiles[i]->drawTile();
+                adjacentTiles[i]->drawTile(drawing);
             }
-            else
+            else if(drawing)
                 drawBorder(i);
         }
     }
@@ -54,9 +55,9 @@ void Tile::drawSingleTile()
 
 void Tile::drawFlashLightTile(int side, int range, int maxRange)
 {
-    sf::RenderWindow& window = RenderWindowSingleton::GetInstance()->getWindow();
     if (range > 0)
     {
+        sf::RenderWindow& window = RenderWindowSingleton::GetInstance()->getWindow();
         int steps = 255 / maxRange;
         window.draw(hexagon);
         sf::ConvexShape coverHexagon;
@@ -72,21 +73,20 @@ void Tile::drawFlashLightTile(int side, int range, int maxRange)
 
         for (int i = 0; i < 6; i++)
         {
-            if (adjacentTiles[i] == nullptr)
-            {
-                drawBorder(i);
-            }
+             if (adjacentTiles[i] == nullptr)
+             {
+                 drawBorder(i);
+             }
         }
 
         if (adjacentTiles[side] != nullptr)
         {
-            --range;
-            adjacentTiles[side]->drawFlashLightTile(side, range, maxRange);
-            adjacentTiles[side]->drawFlashLightTile((side + 1) % 6, range, maxRange);
-            adjacentTiles[side]->drawFlashLightTile((6 + side - 1) % 6, range, maxRange);
+             --range;
+             adjacentTiles[side]->drawFlashLightTile(side, range, maxRange);
+             adjacentTiles[side]->drawFlashLightTile((side + 1) % 6, range, maxRange);
+             adjacentTiles[side]->drawFlashLightTile((6 + side - 1) % 6, range, maxRange);
         }
     }
-
 }
 
 void Tile::drawBorder(int side)
@@ -200,7 +200,6 @@ Tile* Tile::findTile(int x, int y)
         Tile* current = tileQueue.front();
         tileQueue.pop();
 
-        std::cout << x << " " << y << " " << current->x << " " << current->y << std::endl;
 
         if (current->x == x && current->y == y)
             return current;
@@ -308,6 +307,29 @@ bool Tile::isVisited() const
     return visitedByGrid;
 }
 
+void Tile::setVisitedByDelete()
+{
+    visitedByDelete = true;
+}
+
+bool Tile::isVisitedByDelete()
+{
+    return visitedByDelete;
+}
+
+void Tile::resetVisitedByDeleted()
+{
+    if (visitedByDelete) {
+        visitedByDelete = false;
+
+        for (int i = 0; i < 6; i++) {
+            if (adjacentTiles[i] != nullptr && adjacentTiles[i]->isVisitedByDelete()) {
+                adjacentTiles[i]->resetVisitedByDeleted();
+            }
+        }
+    }
+}
+
 float Tile::getRadius()
 {
     return radius;
@@ -385,4 +407,57 @@ void Tile::connectsTo()
 sf::Vector2<int> Tile::getCoords()
 {
     return sf::Vector2<int>(x, y);
+}
+
+void Tile::toJson(json& j)
+{
+    std::string index = std::to_string((int)this);
+    visitedByJson = true;
+
+    for (int i = 0; i < 6; i++)
+    {
+        if (adjacentTiles[i] != nullptr)
+        {
+            j[index].push_back(std::to_string((int)adjacentTiles[i]));
+            if(!this->getTile(i)->visitedByJson)
+                this->getTile(i)->toJson(j);
+        }
+        else
+            j[index].push_back("nullptr");
+    }
+}
+
+void Tile::setVisitedByJson()
+{
+    visitedByJson = true;
+}
+
+bool Tile::isVisitedByJson()
+{
+    return visitedByJson;
+}
+
+void Tile::resetVisitedByJson()
+{
+    visitedByJson = false;
+}
+
+void Tile::presetReveal(Tile* toSet, int dirToSet)
+{
+    if (presetTile == nullptr)
+    {
+        presetDirection = dirToSet;
+        presetTile = toSet;
+
+        toSet->presetReveal(this, refIds[presetDirection]);
+    }
+    
+}
+
+void Tile::reveal()
+{
+    if (adjacentTiles[presetDirection] == nullptr)
+        setMutualBetter(presetDirection, this, presetTile);
+    else
+        unsetTiles(presetDirection, this);
 }

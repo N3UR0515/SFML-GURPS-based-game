@@ -13,52 +13,71 @@ Grid::Grid()
 	firstTile.y = radius;
 	
 	steps.x = radius + radius * (static_cast<float>(2) / 3);
-	std::cout << steps.x << std::endl;
 	steps.y = radius*2;
 
 }
 
-void Grid::mapToGrid(Map& map) const
+void Grid::mapToGrid(Tile* mainTile) const
 {
-	Tile* tile = map.getMainTile();
-	//tile->setPosition(firstTile);
-	tile->setVisited();
-
-	sf::Vector2<int> count = { 0, 0 };
-
-	mapToGridRecursion(tile, count, firstTile);
+	mainTile->setVisited();
 
 
-	/*while (tile->getTile(0) != nullptr)
+	sf::Vector2f position = configPosition();
+	
+
+	mapToGridRecursion(mainTile, position);
+}
+
+void Grid::setSide(int toSet)
+{
+	side = toSet;
+}
+
+sf::Vector2f Grid::configPosition() const
+{
+	sf::RenderWindow& window = RenderWindowSingleton::GetInstance()->getWindow();
+	float centerX = (window.getSize().x / 2) / (firstTile.x * 2);
+	float centerY = (window.getSize().y / 2) / (firstTile.y * 2);
+	float topY = (window.getSize().y) / (firstTile.y * 2) - 1;
+	float bottomY = 0;
+	float rightX = 0;
+	float leftX = (window.getSize().x) / (firstTile.x * 2) + 1;
+	sf::Vector2f pos = { centerX, centerY };
+	
+	switch (side)
 	{
-		tile = tile->getTile(0);
-		count.y++;
-		float yCoord = steps.y * count.y + firstTile.y;
-		tile->setPosition(sf::Vector2f{ firstTile.x, steps.y * count.y + firstTile.y });
-	}*/
+	case -1:
+		break;
+	case 0:
+		pos.x = centerX;
+		pos.y = bottomY;
+		break;
+	case 1:
+		pos.x = leftX;
+		pos.y = bottomY;
+		break;
+	case 2:
+		pos.x = leftX;
+		pos.y = topY;
+		break;
+	case 3:
+		pos.x = centerX;
+		pos.y = topY;
+		break;
+	case 4:
+		pos.x = rightX;
+		pos.y = topY;
+		break;
+	case 5:
+		pos.x = rightX;
+		pos.y = bottomY;
+		break;
+	}
+	return { firstTile.x + steps.x * pos.x, firstTile.y + steps.y * pos.y };
 }
 
-void Grid::playerToGrid(Player& player) const
+void Grid::mapToGridRecursion(Tile* currentTile, sf::Vector2f nextPosition) const
 {
-	Tile* tile = player.getTile();
-	tile->setVisited();
-
-	sf::Vector2<int> count = { 4, 5 };
-
-	mapToGridRecursion(tile, count, firstTile);
-}
-
-void Grid::mapToGridRecursion(Tile* currentTile, sf::Vector2<int> count, sf::Vector2f nextPosition) const
-{
-	float xPos = firstTile.x + count.x * steps.x;
-	float yPos = firstTile.y + count.y * steps.y;
-	std::cout << "STUFF" << std::endl;
-	std::cout << xPos << " " << yPos << std::endl;
-
-	if (count.x % 2 != 0)
-		yPos += firstTile.y;
-
-	//currentTile->setPosition(sf::Vector2f(xPos, yPos));
 	currentTile->setPosition(nextPosition);
 
 	for (int i = 0; i < 6; i++)
@@ -67,40 +86,35 @@ void Grid::mapToGridRecursion(Tile* currentTile, sf::Vector2<int> count, sf::Vec
 		if (neighbour != nullptr && !neighbour->isVisited())
 		{
 			neighbour->setVisited();
-			sf::Vector2<int> nextCount = count;
 			sf::Vector2f nextNextPosition = nextPosition;
 
-			if (i == 0) {
-				nextCount.y++;
+			switch (i)
+			{
+			case 0: 
 				nextNextPosition.y += steps.y;
-			}
-			else if (i == 1) {
+				break;
+			case 1:
 				nextNextPosition.y += steps.y / 2;
 				nextNextPosition.x -= steps.x;
-				nextCount.y++;
-				nextCount.x--;
-			}
-			else if (i == 2) {
+				break;
+			case 2:
 				nextNextPosition.y -= steps.y / 2;
 				nextNextPosition.x -= steps.x;
-				nextCount.x--;
-			}
-			else if (i == 3) {
+				break;
+			case 3:
 				nextNextPosition.y -= steps.y;
-				nextCount.y--;
-			}
-			else if (i == 4) {
+				break;
+			case 4:
 				nextNextPosition.y -= steps.y / 2;
 				nextNextPosition.x += steps.x;
-				nextCount.x++;
-			}
-			else if (i == 5) {
+				break;
+			case 5:
 				nextNextPosition.y += steps.y / 2;
 				nextNextPosition.x += steps.x;
-				//nextCount.y++;
-				nextCount.x++;
+				break;
 			}
-			mapToGridRecursion(neighbour, nextCount, nextNextPosition);
+
+			mapToGridRecursion(neighbour, nextNextPosition);
 		}
 	}
 }

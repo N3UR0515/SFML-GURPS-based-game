@@ -16,9 +16,6 @@
     <Filter Include="Source Files\Map">
       <UniqueIdentifier>{0fd6caad-4f34-41dd-9f85-99540ea442da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Player">
-      <UniqueIdentifier>{9b5a7da4-e05a-4723-ac89-633c3d5caf75}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\TileStrategies">
       <UniqueIdentifier>{6eefc261-48c8-47a5-8ee2-f44f9f683eb6}</UniqueIdentifier>
     </Filter>
@@ -31,6 +28,9 @@
     <Filter Include="Source Files\Abstracts">
       <UniqueIdentifier>{aca6dc4c-8c65-4f9d-b059-b99a0ac5f657}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Character">
+      <UniqueIdentifier>{9b5a7da4-e05a-4723-ac89-633c3d5caf75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,8 +42,8 @@
     <ClCompile Include="tile.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Source Files\Player</Filter>
+    <ClCompile Include="character.cpp">
+      <Filter>Source Files\Character</Filter>
     </ClCompile>
     <ClCompile Include="renderWindowSingleton.cpp">
       <Filter>Source Files\Abstracts</Filter>
@@ -66,6 +66,27 @@
     <ClCompile Include="grid.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
+    <ClCompile Include="cameraBlockJump.cpp">
+      <Filter>Source Files\TileStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="outOfBounds.cpp">
+      <Filter>Source Files\DirectionStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="DoNothingTile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="skill.cpp">
+      <Filter>Source Files\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="skillList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="serverInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tempSide.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="map.h">
@@ -74,7 +95,7 @@
     <ClInclude Include="tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
+    <ClInclude Include="character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="directionStrategy.h">
@@ -105,6 +126,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraBlockJump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="outOfBounds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DoNothingTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="skill.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="skillList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="serverInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tempSide.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

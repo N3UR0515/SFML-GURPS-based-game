@@ -82,7 +82,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML\SFML-2.6.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-network-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,7 +101,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML\SFML-2.6.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-network.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -116,7 +116,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML\SFML-2.6.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-network-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -135,33 +135,47 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML\SFML-2.6.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-network.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cameraBlockJump.cpp" />
     <ClCompile Include="createTile.cpp" />
     <ClCompile Include="deleteTile.cpp" />
+    <ClCompile Include="DoNothingTile.cpp" />
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="keyboardInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="moveTile.cpp" />
-    <ClCompile Include="player.cpp" />
+    <ClCompile Include="outOfBounds.cpp" />
+    <ClCompile Include="character.cpp" />
     <ClCompile Include="renderWindowSingleton.cpp" />
+    <ClCompile Include="serverInput.cpp" />
     <ClCompile Include="singleTileDrawingImplementation.cpp" />
+    <ClCompile Include="skill.cpp" />
+    <ClCompile Include="skillList.cpp" />
+    <ClCompile Include="tempSide.cpp" />
     <ClCompile Include="tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cameraBlockJump.h" />
     <ClInclude Include="createTile.h" />
     <ClInclude Include="deleteTile.h" />
     <ClInclude Include="directionStrategy.h" />
+    <ClInclude Include="DoNothingTile.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="keyboardInput.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="moveTile.h" />
-    <ClInclude Include="player.h" />
+    <ClInclude Include="outOfBounds.h" />
+    <ClInclude Include="character.h" />
     <ClInclude Include="renderWindowSingleton.h" />
+    <ClInclude Include="serverInput.h" />
     <ClInclude Include="singleTileDrawingImplementation.h" />
+    <ClInclude Include="skill.h" />
+    <ClInclude Include="skillList.h" />
+    <ClInclude Include="tempSide.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="tilePossessor.h" />
     <ClInclude Include="tileStrategy.h" />
